@@ -48,22 +48,51 @@ Apache job can be view online:
 
 http://localhost:4040
 
-For data integration:
+For data Aggregation:
+
+added checkpoint
+
+
+Kafka Integration
+
+* Need to add artifact for kafka under sbt.
+* config folder was not came under kafka installation through brew so need to copy it saparately.
+
+
+START ZOOKEEPER SERVER
+
+╭─pkhadloya@pratikk2  /usr/local/Cellar/kafka/0.8.2.1/bin  ‹master*› 
+╰─$ zkServer start
+     
+START KAFKA SERVER
+
+╭─pkhadloya@pratikk2  /usr/local/Cellar/kafka/0.8.2.1/bin  ‹master*› 
+╰─$ ./kafka-server-start.sh ../config/server.properties
+
+START PRODUCER
+╭─pkhadloya@pratikk2  /usr/local/Cellar/kafka/0.8.2.1/bin  ‹master*› 
+╰─$ kafka-console-producer.sh --broker-list localhost:9092 --topic test
+
+LIST TOPICS UNDER KAFKA
+╭─pkhadloya@pratikk2  /usr/local/Cellar/kafka/0.8.2.1/bin  ‹master*› 
+╰─$ kafka-topics.sh --list --zookeeper localhost:2181
+test
+
+CONSUMER
+╭─pkhadloya@pratikk2  /usr/local/Cellar/kafka/0.8.2.1/bin  ‹master*› 
+╰─$ run-example streaming.DirectKafkaWordCount localhost:9092 test
+
+OR
+─pkhadloya@pratikk2  ~/Projects/Juniper/hadoop/learning-spark/examples/spark_streaming  ‹master*› 
+$ spark-submit --class NetworkWordCount --master "local[*]" --jars ../../jars/spark-streaming-kafka-assembly_2.10-1.4.1.jar  target/scala-2.10/spark_streaming_2.10-0.1-SNAPSHOT.jar localhost:9092 test
+
+OR
+
+╭─pkhadloya@pratikk2  /usr/local/Cellar/kafka/0.8.2.1/bin  ‹master*› 
+╰─$ kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning
 
 
 
-
-
-
-
-
-For kafka integration:
-Source	Artifact 
-Kafka 	spark-streaming-kafka_2.10 
-
-
-By adding  sbt, and after building image using sbt package. 
-we can build our own straming Input object. And ran the same command.
 
 
 
